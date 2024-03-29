@@ -1,3 +1,6 @@
+using gorselProgramlama;
+using System.Text.Json;
+
 namespace GörselProgramlamaGörev1
 {
     public partial class Form1 : Form
@@ -22,8 +25,8 @@ namespace GörselProgramlamaGörev1
         private void button1_Click(object sender, EventArgs e)
         {
             ÜyeEkle customdialog = new ÜyeEkle();
-            DialogResult sonuc=customdialog.ShowDialog();
-            
+            DialogResult sonuc = customdialog.ShowDialog();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -38,5 +41,7 @@ namespace GörselProgramlamaGörev1
             Emanetİşleri customdialog = new Emanetİşleri();
             DialogResult sonuc = customdialog.ShowDialog();
         }
+
+        
     }
 }

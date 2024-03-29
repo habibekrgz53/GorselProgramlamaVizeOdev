@@ -35,8 +35,24 @@ namespace GörselProgramlamaGörev1
             Uyeler uye = new Uyeler();
             uye.UyeAdi = textBox1.Text;
             uye.UyeSoyadi = textBox2.Text;
+            uye.UyeMail = textBox3.Text;
+            uye.UyeTel = textBox4.Text;
+            this.Close();
 
+        }
 
+        private void ÜyeEkle_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

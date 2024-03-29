@@ -33,12 +33,15 @@
             textBox1 = new TextBox();
             label1 = new Label();
             button1 = new Button();
+            button2 = new Button();
+            label4 = new Label();
+            dateTimePicker1 = new DateTimePicker();
             SuspendLayout();
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(8, 79);
+            label2.Location = new Point(8, 146);
             label2.Name = "label2";
             label2.Size = new Size(147, 15);
             label2.TabIndex = 8;
@@ -46,22 +49,22 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(161, 76);
+            textBox3.Location = new Point(187, 138);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(100, 23);
+            textBox3.Size = new Size(369, 23);
             textBox3.TabIndex = 7;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(161, 34);
+            textBox1.Location = new Point(187, 93);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
+            textBox1.Size = new Size(369, 23);
             textBox1.TabIndex = 6;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(8, 37);
+            label1.Location = new Point(8, 101);
             label1.Name = "label1";
             label1.Size = new Size(114, 15);
             label1.TabIndex = 5;
@@ -69,19 +72,48 @@
             // 
             // button1
             // 
-            button1.Location = new Point(96, 123);
+            button1.Location = new Point(119, 249);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(84, 29);
             button1.TabIndex = 9;
             button1.Text = "Onayla";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(233, 249);
+            button2.Name = "button2";
+            button2.Size = new Size(86, 29);
+            button2.TabIndex = 10;
+            button2.Text = "İptal Et";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(8, 184);
+            label4.Name = "label4";
+            label4.Size = new Size(159, 15);
+            label4.TabIndex = 12;
+            label4.Text = "Kitabı Aldığınız Tarihi Giriniz: ";
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(187, 184);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.TabIndex = 15;
             // 
             // ÖdünçAlma
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(dateTimePicker1);
+            Controls.Add(label4);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(textBox3);
@@ -101,5 +133,8 @@
         private TextBox textBox1;
         private Label label1;
         private Button button1;
+        private Button button2;
+        private Label label4;
+        private DateTimePicker dateTimePicker1;
     }
 }

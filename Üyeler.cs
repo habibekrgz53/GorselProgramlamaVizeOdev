@@ -11,7 +11,8 @@ namespace gorselProgramlama
     {
         private string _uyeAdi;
         private string _uyeSoyadi;
-      
+        private string _mail;
+        private int _tel;
 
         public string UyeAdi
         {
@@ -24,11 +25,30 @@ namespace gorselProgramlama
             get { return _uyeSoyadi; }
             set { _uyeSoyadi = value; }
         }
-
-      
+        public string UyeMail
+        {
+            get { return _mail; }
+            set { _mail = value; }
+        }
+        public int UyeTel
+        {
+            get { return _tel; }
+            set { _tel = value; }
+        }
 
         public Uyeler() { }
+        public void TabloyaEkle(DataTable tablo)
+        {
+            tablo.Rows.Add(new object[] {this.UyeAdi,
+                                         this.UyeSoyadi,
+                                         this.UyeMail,
+                                         this.UyeTel});
 
-        
+
+
+
+        }
+
+
     }
 }
