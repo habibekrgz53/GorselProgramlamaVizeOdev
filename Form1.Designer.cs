@@ -35,6 +35,7 @@
             label2 = new Label();
             menuStrip1 = new MenuStrip();
             girişEkranıToolStripMenuItem = new ToolStripMenuItem();
+            button4 = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -103,11 +104,22 @@
             girişEkranıToolStripMenuItem.Size = new Size(77, 20);
             girişEkranıToolStripMenuItem.Text = "Giriş Ekranı";
             // 
+            // button4
+            // 
+            button4.Location = new Point(363, 273);
+            button4.Name = "button4";
+            button4.Size = new Size(118, 23);
+            button4.TabIndex = 6;
+            button4.Text = "Programı Kapat";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button4);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(button3);
@@ -132,5 +144,6 @@
         private Label label2;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem girişEkranıToolStripMenuItem;
+        private Button button4;
     }
 }

@@ -42,6 +42,9 @@ namespace GörselProgramlamaGörev1
             DialogResult sonuc = customdialog.ShowDialog();
         }
 
-        
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();  
+        }
     }
 }

@@ -34,14 +34,13 @@
             label2 = new Label();
             button1 = new Button();
             button2 = new Button();
-            dateTimePicker1 = new DateTimePicker();
-            label3 = new Label();
+            button3 = new Button();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(25, 53);
+            label1.Location = new Point(25, 76);
             label1.Name = "label1";
             label1.Size = new Size(114, 15);
             label1.TabIndex = 0;
@@ -49,14 +48,14 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(178, 50);
+            textBox1.Location = new Point(178, 68);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(200, 23);
             textBox1.TabIndex = 1;
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(178, 95);
+            textBox3.Location = new Point(178, 119);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(200, 23);
             textBox3.TabIndex = 3;
@@ -64,7 +63,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(25, 98);
+            label2.Location = new Point(25, 127);
             label2.Name = "label2";
             label2.Size = new Size(147, 15);
             label2.TabIndex = 4;
@@ -72,7 +71,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(121, 193);
+            button1.Location = new Point(121, 169);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 5;
@@ -82,7 +81,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(230, 193);
+            button2.Location = new Point(230, 169);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 6;
@@ -90,30 +89,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // dateTimePicker1
+            // button3
             // 
-            dateTimePicker1.Location = new Point(178, 141);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 7;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(25, 147);
-            label3.Name = "label3";
-            label3.Size = new Size(144, 15);
-            label3.TabIndex = 8;
-            label3.Text = "Geri Verme Tarihini Giriniz:";
-            label3.Click += label3_Click;
+            button3.Location = new Point(339, 169);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 7;
+            button3.Text = "Verileri Oku";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // GeriVerme
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(label3);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label2);
@@ -134,7 +125,6 @@
         private Label label2;
         private Button button1;
         private Button button2;
-        private DateTimePicker dateTimePicker1;
-        private Label label3;
+        private Button button3;
     }
 }

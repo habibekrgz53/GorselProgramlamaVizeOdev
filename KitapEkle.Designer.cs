@@ -41,23 +41,28 @@
             textBox3 = new TextBox();
             textBox4 = new TextBox();
             textBox5 = new TextBox();
+            button3 = new Button();
+            button4 = new Button();
+            dataGridView1 = new DataGridView();
             button2 = new Button();
+            button5 = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(177, 263);
+            button1.Location = new Point(478, 50);
             button1.Name = "button1";
-            button1.Size = new Size(91, 37);
+            button1.Size = new Size(221, 22);
             button1.TabIndex = 0;
-            button1.Text = "Ekle";
+            button1.Text = "Kaydet";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 49);
+            label1.Location = new Point(12, 122);
             label1.Name = "label1";
             label1.Size = new Size(117, 15);
             label1.TabIndex = 1;
@@ -75,7 +80,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 125);
+            label3.Location = new Point(12, 54);
             label3.Name = "label3";
             label3.Size = new Size(150, 15);
             label3.TabIndex = 3;
@@ -148,24 +153,67 @@
             textBox5.Location = new Point(177, 188);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(221, 23);
-            textBox5.TabIndex = 16;      
+            textBox5.TabIndex = 16;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(478, 74);
+            button3.Name = "button3";
+            button3.Size = new Size(221, 28);
+            button3.TabIndex = 18;
+            button3.Text = "Düzenle";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(478, 108);
+            button4.Name = "button4";
+            button4.Size = new Size(221, 26);
+            button4.TabIndex = 19;
+            button4.Text = "Sil";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(-3, 254);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(791, 184);
+            dataGridView1.TabIndex = 20;
             // 
             // button2
             // 
-            button2.Location = new Point(280, 263);
+            button2.Location = new Point(478, 50);
             button2.Name = "button2";
-            button2.Size = new Size(118, 37);
-            button2.TabIndex = 17;
-            button2.Text = "Kitapları Listele";
+            button2.Size = new Size(221, 23);
+            button2.TabIndex = 21;
+            button2.Text = "Değişliği Kaydet";
             button2.UseVisualStyleBackColor = true;
+            button2.Visible = false;
             button2.Click += button2_Click;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(478, 140);
+            button5.Name = "button5";
+            button5.Size = new Size(221, 23);
+            button5.TabIndex = 22;
+            button5.Text = "Kitapları Dosyadan Oku";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // KitapEkle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button5);
             Controls.Add(button2);
+            Controls.Add(dataGridView1);
+            Controls.Add(button4);
+            Controls.Add(button3);
             Controls.Add(textBox5);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
@@ -181,6 +229,7 @@
             Controls.Add(button1);
             Name = "KitapEkle";
             Text = "KitapEkle";
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -200,6 +249,10 @@
         private TextBox textBox3;
         private TextBox textBox4;
         private TextBox textBox5;
+        private Button button3;
+        private Button button4;
+        private DataGridView dataGridView1;
         private Button button2;
+        private Button button5;
     }
 }

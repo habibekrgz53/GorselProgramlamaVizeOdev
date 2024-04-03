@@ -34,8 +34,7 @@
             label1 = new Label();
             button1 = new Button();
             button2 = new Button();
-            label4 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            button3 = new Button();
             SuspendLayout();
             // 
             // label2
@@ -72,7 +71,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(119, 249);
+            button1.Location = new Point(187, 201);
             button1.Name = "button1";
             button1.Size = new Size(84, 29);
             button1.TabIndex = 9;
@@ -82,7 +81,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(233, 249);
+            button2.Location = new Point(304, 201);
             button2.Name = "button2";
             button2.Size = new Size(86, 29);
             button2.TabIndex = 10;
@@ -90,29 +89,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // label4
+            // button3
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(8, 184);
-            label4.Name = "label4";
-            label4.Size = new Size(159, 15);
-            label4.TabIndex = 12;
-            label4.Text = "Kitabı Aldığınız Tarihi Giriniz: ";
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(187, 184);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 15;
+            button3.Location = new Point(421, 201);
+            button3.Name = "button3";
+            button3.Size = new Size(135, 29);
+            button3.TabIndex = 16;
+            button3.Text = "Mevcut Kitaplar";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // ÖdünçAlma
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(dateTimePicker1);
-            Controls.Add(label4);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label2);
@@ -121,7 +113,6 @@
             Controls.Add(label1);
             Name = "ÖdünçAlma";
             Text = "ÖdünçAlma";
-            Load += ÖdünçAlma_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -134,7 +125,6 @@
         private Label label1;
         private Button button1;
         private Button button2;
-        private Label label4;
-        private DateTimePicker dateTimePicker1;
+        private Button button3;
     }
 }
