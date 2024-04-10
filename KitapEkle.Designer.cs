@@ -202,7 +202,7 @@
             button5.TabIndex = 22;
             button5.Text = "Kitapları Dosyadan Oku";
             button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            //button5.Click += button5_Click;
             // 
             // KitapEkle
             // 
