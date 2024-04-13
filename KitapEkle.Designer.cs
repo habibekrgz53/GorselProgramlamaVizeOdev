@@ -193,6 +193,19 @@
             button2.Visible = false;
             button2.Click += button2_Click;
             // 
+<<<<<<< HEAD
+=======
+            // button5
+            // 
+            button5.Location = new Point(478, 140);
+            button5.Name = "button5";
+            button5.Size = new Size(221, 23);
+            button5.TabIndex = 22;
+            button5.Text = "Kitapları Dosyadan Oku";
+            button5.UseVisualStyleBackColor = true;
+            //button5.Click += button5_Click;
+            // 
+>>>>>>> b7d493828dd03738720c6d3cebc80d89527f3197
             // KitapEkle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
