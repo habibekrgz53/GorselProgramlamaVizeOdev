@@ -1,11 +1,13 @@
 using gorselProgramlama;
 using System.Text.Json;
+using System.Data;
+using System.Data.SQLite;
 
 namespace GörselProgramlamaGörev1
 {
     public partial class Form1 : Form
     {
-
+        public static SQLiteConnection baglanti;
         public Form1()
         {
             InitializeComponent();

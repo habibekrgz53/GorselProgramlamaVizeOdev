@@ -45,7 +45,6 @@
             button4 = new Button();
             dataGridView1 = new DataGridView();
             button2 = new Button();
-            button5 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -194,22 +193,11 @@
             button2.Visible = false;
             button2.Click += button2_Click;
             // 
-            // button5
-            // 
-            button5.Location = new Point(478, 140);
-            button5.Name = "button5";
-            button5.Size = new Size(221, 23);
-            button5.TabIndex = 22;
-            button5.Text = "Kitapları Dosyadan Oku";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
-            // 
             // KitapEkle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button5);
             Controls.Add(button2);
             Controls.Add(dataGridView1);
             Controls.Add(button4);
@@ -253,6 +241,5 @@
         private Button button4;
         private DataGridView dataGridView1;
         private Button button2;
-        private Button button5;
     }
 }

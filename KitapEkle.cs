@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -14,26 +15,110 @@ namespace GörselProgramlamaGörev1
 {
     public partial class KitapEkle : Form
     {
+        private SQLiteConnection sqliteConnection2;
+        private SQLiteCommand sqliteCommand;
         private int IdFLag = -1;
         private int bookIDCounter = 0;
-        private DataTable dt = new DataTable(); // DataTable dt'yi başlatın
+        private DataTable dt = new DataTable();
         public static List<Kitaplar> kitaplar = new List<Kitaplar>();
 
         public KitapEkle()
         {
             InitializeComponent();
-            dt.Columns.Add("Kitap ID");
-            dt.Columns.Add("Kitap Numarası");
-            dt.Columns.Add("Yazar Adı");
-            dt.Columns.Add("Kitap Adı");
-            dt.Columns.Add("Yayın Evi");
-            dt.Columns.Add("Türü");
-            dt.Columns.Add("Basım Tarihi");
-            dt.Columns.Add("Kitabın Durumu");
+            InitializeDatabase();
+            LoadData();
 
+
+        }
+        private void InitializeDatabase()
+        {
+            sqliteConnection2 = new SQLiteConnection("Data Source=veri.db;Version=3;");
+            sqliteCommand = new SQLiteCommand();
+            sqliteCommand.Connection = sqliteConnection2;
+            CreateDatabaseIfNotExists();
+        }
+        private void CreateDatabaseIfNotExists()
+        {
+            if (!System.IO.File.Exists("veri.db"))
+            {
+                SQLiteConnection.CreateFile("veri.db");
+            }
+            else
+            {
+                sqliteConnection2.Open();
+                sqliteCommand.CommandText = @"CREATE TABLE IF NOT EXISTS Kitaplar (
+                                                KitapID INTEGER PRIMARY KEY AUTOINCREMENT,
+                                                KitapNo TEXT,
+                                                YazarAdi TEXT,
+                                                KitapAdi TEXT,
+                                                YayinEvi TEXT,
+                                                KitapTuru TEXT,
+                                                BasimTarihi TEXT)";
+                sqliteCommand.ExecuteNonQuery();
+                sqliteConnection2.Close();
+            }
+
+        }
+        private void LoadData()
+        {
+            dt = new DataTable();
+            sqliteCommand.CommandText = "SELECT * FROM Kitaplar";
+            sqliteConnection2.Open();
+            SQLiteDataAdapter sqliteDataAdapter = new SQLiteDataAdapter(sqliteCommand);
+            sqliteDataAdapter.Fill(dt);
+            sqliteConnection2.Close();
             dataGridView1.DataSource = dt;
+        }
 
+        private void InsertData(string kitapNo, string yazarAdi, string kitapAdi, string yayinEvi, string kitapTuru, string basimTarihi)
+        {
+            sqliteCommand.CommandText = @"INSERT INTO Kitaplar (KitapNo, YazarAdi, KitapAdi, YayinEvi, KitapTuru, BasimTarihi) 
+                                           VALUES (@kitapNo, @yazarAdi, @kitapAdi, @yayinEvi, @kitapTuru, @basimTarihi)";
+            sqliteCommand.Parameters.AddWithValue("@kitapNo", kitapNo);
+            sqliteCommand.Parameters.AddWithValue("@yazarAdi", yazarAdi);
+            sqliteCommand.Parameters.AddWithValue("@kitapAdi", kitapAdi);
+            sqliteCommand.Parameters.AddWithValue("@yayinEvi", yayinEvi);
+            sqliteCommand.Parameters.AddWithValue("@kitapTuru", kitapTuru);
+            sqliteCommand.Parameters.AddWithValue("@basimTarihi", basimTarihi);
 
+            sqliteConnection2.Open();
+            sqliteCommand.ExecuteNonQuery();
+            sqliteConnection2.Close();
+            sqliteCommand.Parameters.Clear();
+        }
+
+        private void UpdateData(int kitapID, string kitapNo, string yazarAdi, string kitapAdi, string yayinEvi, string kitapTuru, string basimTarihi)
+        {
+            sqliteCommand.CommandText = @"UPDATE Kitaplar 
+                                           SET KitapNo = @kitapNo, 
+                                               YazarAdi = @yazarAdi, 
+                                               KitapAdi = @kitapAdi, 
+                                               YayinEvi = @yayinEvi, 
+                                               KitapTuru = @kitapTuru, 
+                                               BasimTarihi = @basimTarihi 
+                                           WHERE KitapID = @kitapID";
+            sqliteCommand.Parameters.AddWithValue("@kitapID", kitapID);
+            sqliteCommand.Parameters.AddWithValue("@kitapNo", kitapNo);
+            sqliteCommand.Parameters.AddWithValue("@yazarAdi", yazarAdi);
+            sqliteCommand.Parameters.AddWithValue("@kitapAdi", kitapAdi);
+            sqliteCommand.Parameters.AddWithValue("@yayinEvi", yayinEvi);
+            sqliteCommand.Parameters.AddWithValue("@kitapTuru", kitapTuru);
+            sqliteCommand.Parameters.AddWithValue("@basimTarihi", basimTarihi);
+
+            sqliteConnection2.Open();
+            sqliteCommand.ExecuteNonQuery();
+            sqliteConnection2.Close();
+            sqliteCommand.Parameters.Clear();
+        }
+
+        private void DeleteData(int kitapID)
+        {
+            sqliteCommand.CommandText = "DELETE FROM Kitaplar WHERE KitapID = @kitapID";
+            sqliteCommand.Parameters.AddWithValue("@kitapID", kitapID);
+            sqliteConnection2.Open();
+            sqliteCommand.ExecuteNonQuery();
+            sqliteConnection2.Close();
+            sqliteCommand.Parameters.Clear();
         }
         private void ResetInputsForValue()
         {
@@ -46,27 +131,35 @@ namespace GörselProgramlamaGörev1
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Kitaplar kitap = new Kitaplar();
-            kitap.KitapNo = textBox1.Text;
-            kitap.YazarAdi = textBox2.Text;
-            kitap.KitapAdi = textBox3.Text;
-            kitap.YayınEvi = textBox4.Text;
-            kitap.KitapTürü = textBox5.Text;
-            kitap.BasımTarihi = dateTimePicker1.Text;
-            kitap.KitapID = ++bookIDCounter;
 
-            kitap.TabloyaEkle(dt);
-            kitaplar.Add(kitap);
+            string kitapNo = textBox1.Text;
+            string yazarAdi = textBox2.Text;
+            string kitapAdi = textBox3.Text;
+            string yayinEvi = textBox4.Text;
+            string kitapTuru = textBox5.Text;
+            string basimTarihi = dateTimePicker1.Value.ToString("yyyy-MM-dd"); // SQLite için tarih formatı
 
 
-            string yazilacak = JsonSerializer.Serialize<List<Kitaplar>>(kitaplar);
 
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "JSON Dosyasi|*.json";
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (!string.IsNullOrWhiteSpace(kitapNo) && !string.IsNullOrWhiteSpace(yazarAdi) && !string.IsNullOrWhiteSpace(kitapAdi) &&
+                !string.IsNullOrWhiteSpace(yayinEvi) && !string.IsNullOrWhiteSpace(kitapTuru))
             {
-                string KitaplarListesi = dialog.FileName;
-                File.WriteAllText(KitaplarListesi, yazilacak, Encoding.UTF8);
+                if (IdFLag== -1)
+                {
+                    InsertData(kitapNo, yazarAdi, kitapAdi, yayinEvi, kitapTuru, basimTarihi);
+                }
+                else
+                {
+                    UpdateData(IdFLag, kitapNo, yazarAdi, kitapAdi, yayinEvi, kitapTuru, basimTarihi);
+                    IdFLag = -1; // IdFlag'i sıfırla
+                }
+
+                LoadData();
+                ResetInputsForValue();
+            }
+            else
+            {
+                MessageBox.Show("Lütfen verileri eksiksiz giriniz.");
             }
 
             ResetInputsForValue();
@@ -120,119 +213,41 @@ namespace GörselProgramlamaGörev1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            int selectedRowIndex = dataGridView1.SelectedCells[0].RowIndex;
-
-            object KitapIdObject = dataGridView1[0, selectedRowIndex].Value;
-
-            if (KitapIdObject == null)
+            if (IdFLag != -1)
             {
-                MessageBox.Show("Lütfen geçerli bir üye seçiniz.");
-            }
-            else
-            {
-                int rowIndex = -1;
-                foreach (DataRow row in dt.Rows)
-                {
-
-                    if (row["Kitap ID"].ToString() == KitapIdObject.ToString())
-                    {
-                        rowIndex = row.Table.Rows.IndexOf(row);
-                        break;
-                    }
-                }
-
-                if (rowIndex != -1)
-                {
-                    dt.Rows.RemoveAt(rowIndex);
-                    int index = kitaplar.FindIndex(kitap => kitap.KitapID == Convert.ToInt32(KitapIdObject.ToString()));
-                    kitaplar.RemoveAt(index);
-
-                    string yazilacak = JsonSerializer.Serialize<List<Kitaplar>>(kitaplar);
-
-                    SaveFileDialog dialog = new SaveFileDialog();
-                    dialog.Filter = "JSON Dosyasi|*.json";
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        string KitaplarListesi = dialog.FileName;
-                        File.WriteAllText(KitaplarListesi, yazilacak, Encoding.UTF8);
-                    }
-                }
-
-                dt.AcceptChanges();
+                DeleteData(IdFLag);
+                LoadData();
+                ResetInputsForValue();
+                IdFLag = -1; // IdFlag'i sıfırla
             }
         }
     
     
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "JSON Dosyasi|*.json";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                string KitaplarListesi = dialog.FileName;
-                kitaplar = JsonSerializer.Deserialize<List<Kitaplar>>(File.ReadAllText(KitaplarListesi, Encoding.UTF8));
-                dt.Clear();
-                foreach (Kitaplar kitap in kitaplar)
-                {
-                    kitap.TabloyaEkle(dt);
-                }
-                bookIDCounter = kitaplar.Count;
-            }
-
-        }
+      
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Kitaplar guncelKitap= new Kitaplar();
-            var dataController= string.IsNullOrWhiteSpace;
-            
-            string kitapNo=textBox1.Text;
-            string yazarAdi=textBox2.Text;
-            string kitapAdi=textBox3.Text;
-            string yayinEvi=textBox4.Text;
-            string kitapTuru=textBox5.Text;
-            string basimTarihi = dateTimePicker1.Text;
-
-            if (dataController(kitapNo) || dataController(yazarAdi) || dataController(kitapAdi) || dataController(yayinEvi) || dataController(kitapTuru) || dataController(basimTarihi))
+            if (IdFLag != -1)
             {
-                MessageBox.Show("Lütfen tüm verileri eksiksiz giriniz.");
+                string kitapNo = textBox1.Text;
+                string yazarAdi = textBox2.Text;
+                string kitapAdi = textBox3.Text;
+                string yayinEvi = textBox4.Text;
+                string kitapTuru = textBox5.Text;
+                string basimTarihi = dateTimePicker1.Value.ToString("yyyy-MM-dd");
+
+                UpdateData(IdFLag, kitapNo, yazarAdi, kitapAdi, yayinEvi, kitapTuru, basimTarihi); // IdFlag'e göre güncelleme yap
+                LoadData();
+                ResetInputsForValue();
+                IdFLag = -1; // IdFlag'i sıfırla
             }
-
-            else 
-            {
-                if (IdFLag > -1)
-                {
-                    guncelKitap.KitapID = IdFLag;
-                    guncelKitap.KitapNo = kitapNo;
-                    guncelKitap.YazarAdi = yazarAdi;
-                    guncelKitap.KitapAdi = kitapAdi;
-                    guncelKitap.YayınEvi = yayinEvi;
-                    guncelKitap.KitapTürü = kitapTuru;
-                    guncelKitap.BasımTarihi = basimTarihi;
-
-                    guncelKitap.TabloyaEkle(dt);
-                    int index =kitaplar.FindIndex(kitap=>kitap.KitapID == IdFLag);
-                    if(index != -1)
-                    {
-                        kitaplar[index] = guncelKitap;
-                        IdFLag = -1;
-
-                        string yazilacak = JsonSerializer.Serialize<List<Kitaplar>>(kitaplar);
-
-                        SaveFileDialog dialog = new SaveFileDialog();
-                        dialog.Filter = "JSON Dosyasi|*.json";
-                        if (dialog.ShowDialog() == DialogResult.OK)
-                        {
-                            string KitaplarListesi = dialog.FileName;
-                            File.WriteAllText(KitaplarListesi, yazilacak, Encoding.UTF8);
-                        }
-                        ResetInputsForValue();
-                    }
-                }
-                button2.Visible = false;
-                button1.Visible = true;
-            }
+            button2.Visible = false;
+            button1.Visible = true;
         }
+
+                
+            
+       
     }
 }

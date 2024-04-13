@@ -15,12 +15,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SQLite;
 
 namespace GörselProgramlamaGörev1
 {
     public partial class ÜyeEkle : Form
     {
-
+        private SQLiteConnection sqliteConnection;
+        private SQLiteCommand sqliteCommand;
+        private SQLiteDataAdapter sqliteDataAdapter;
         private List<Uyeler> uyeler;
         private DataTable dt;
         private int idCounter = 0;
@@ -35,17 +38,87 @@ namespace GörselProgramlamaGörev1
         public ÜyeEkle()
         {
             InitializeComponent();
-            uyeler = new List<Uyeler>();
-            dt = new DataTable();
-            dt.Columns.Add("Üye ID");
-            dt.Columns.Add("Üye Adı");
-            dt.Columns.Add("Üye Soyadı");
-            dt.Columns.Add("Üye Mail");
-            dt.Columns.Add("Üye Tel");
+            InitializeDataBase();
+            LoadData();
+            
 
             dataGridView1.DataSource = dt;
         }
+        private void InitializeDataBase()
+        {
+            sqliteConnection = new SQLiteConnection("Data Source=veri.db;Version=3;");
+            sqliteCommand = new SQLiteCommand();
+            sqliteCommand.Connection = sqliteConnection;
+            sqliteDataAdapter = new SQLiteDataAdapter(sqliteCommand);
+            CreateDatabaseIfNotExists();
 
+        }
+        private void CreateDatabaseIfNotExists()
+        {
+            if (!System.IO.File.Exists("veri.db"))
+            {
+                SQLiteConnection.CreateFile("veri.db");
+            }
+            else
+            {
+                sqliteConnection.Open();
+                sqliteCommand.CommandText = "CREATE TABLE Uyeler (UyeID INTEGER PRIMARY KEY, UyeAdi TEXT, UyeSoyadi TEXT, UyeMail TEXT, UyeTel TEXT)";
+          //      sqliteCommand.ExecuteNonQuery();
+                sqliteConnection.Close();
+            }
+
+
+        }
+        private void LoadData()
+        {
+            dt = new DataTable();
+            sqliteCommand.CommandText = "SELECT * FROM Uyeler";
+            sqliteConnection.Open();
+            sqliteDataAdapter.Fill(dt);
+            sqliteConnection.Close();
+            dataGridView1.DataSource = dt;
+
+            if (dt.Rows.Count > 0)
+            {
+                idCounter = (int)dt.AsEnumerable().Max(row => row.Field<long>("UyeID"));
+            }
+        }
+        private void InsertData(string uyeAdi, string uyeSoyadi, string uyeMail, string uyeTel)
+        {
+            sqliteCommand.CommandText = "INSERT INTO Uyeler (UyeID, UyeAdi, UyeSoyadi, UyeMail, UyeTel) VALUES (@id, @adi, @soyadi, @mail, @tel)";
+            sqliteCommand.Parameters.AddWithValue("@id", ++idCounter);
+            sqliteCommand.Parameters.AddWithValue("@adi", uyeAdi);
+            sqliteCommand.Parameters.AddWithValue("@soyadi", uyeSoyadi);
+            sqliteCommand.Parameters.AddWithValue("@mail", uyeMail);
+            sqliteCommand.Parameters.AddWithValue("@tel", uyeTel);
+            sqliteConnection.Open();
+            sqliteCommand.ExecuteNonQuery();
+            sqliteConnection.Close();
+            sqliteCommand.Parameters.Clear();
+        }
+        private void UpdateData(int id, string uyeAdi, string uyeSoyadi, string uyeMail, string uyeTel)
+        {
+            sqliteCommand.CommandText = "UPDATE Uyeler SET UyeAdi=@adi, UyeSoyadi=@soyadi, UyeMail=@mail, UyeTel=@tel WHERE UyeID=@id";
+            sqliteCommand.Parameters.AddWithValue("@id", id);
+            sqliteCommand.Parameters.AddWithValue("@adi", uyeAdi);
+            sqliteCommand.Parameters.AddWithValue("@soyadi", uyeSoyadi);
+            sqliteCommand.Parameters.AddWithValue("@mail", uyeMail);
+            sqliteCommand.Parameters.AddWithValue("@tel", uyeTel);
+            sqliteConnection.Open();
+            sqliteCommand.ExecuteNonQuery();
+            sqliteConnection.Close();
+            sqliteCommand.Parameters.Clear();
+        }
+
+        private void DeleteData(int id)
+        {
+            sqliteCommand.CommandText = "DELETE FROM Uyeler WHERE UyeID=@id";
+            sqliteCommand.Parameters.AddWithValue("@id", id);
+            sqliteConnection.Open();
+            sqliteCommand.ExecuteNonQuery();
+            sqliteConnection.Close();
+            sqliteCommand.Parameters.Clear();
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             string uyeAdi = textBox2.Text;
@@ -53,22 +126,15 @@ namespace GörselProgramlamaGörev1
             string uyeMail = textBox3.Text;
             string uyeTel = textBox4.Text;
             var dataController = string.IsNullOrWhiteSpace;
-            if (dataController(uyeAdi) || dataController(uyeSoyadi) || dataController(uyeMail) || dataController(uyeTel))
+            if (!string.IsNullOrWhiteSpace(uyeAdi) && !string.IsNullOrWhiteSpace(uyeSoyadi) && !string.IsNullOrWhiteSpace(uyeMail) && !string.IsNullOrWhiteSpace(uyeTel))
             {
-                MessageBox.Show("Lütfen verileri eksiksiz giriniz.");
+                InsertData(uyeAdi, uyeSoyadi, uyeMail, uyeTel);
+                LoadData();
+                ResetİnputsForValue();
             }
             else
             {
-                Uyeler uye = new Uyeler();
-                uye.UyeID = ++idCounter;
-                uye.UyeAdi = uyeAdi;
-                uye.UyeSoyadi = uyeSoyadi;
-                uye.UyeMail = uyeMail;
-                uye.UyeTel = uyeTel;
-
-                uye.TabloyaEkle(dt);
-                uyeler.Add(uye);
-                ResetİnputsForValue();
+                MessageBox.Show("Lütfen verileri eksiksiz giriniz.");
             }
 
 
@@ -158,19 +224,22 @@ namespace GörselProgramlamaGörev1
                 foreach (DataRow row in dt.Rows)
                 {
 
-                        if (row["Üye ID"].ToString() == uyeIdObject.ToString())
+                        if (row["UyeID"].ToString() == uyeIdObject.ToString())
                     {
                         rowIndex = row.Table.Rows.IndexOf(row);
+                        
                         break; 
                     }
                 }
 
                 if (rowIndex != -1)
                 {
-                    dt.Rows.RemoveAt(rowIndex);  
+                    dt.Rows.RemoveAt(rowIndex);
+                    
                 }
-
+                
                 dt.AcceptChanges();
+                rowIndex--;
             }
             }
     }
